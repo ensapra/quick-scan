@@ -1,0 +1,572 @@
+/*
+
+This CSS file will be included with your plugin, and
+available in the app when your plugin is enabled.
+
+If your plugin does not need CSS, delete this file.
+
+*/
+
+/* ScannerModal Layout */
+.scanner-modal {
+	width: 90vw;
+	height: 80vh;
+	max-width: 900px;
+	max-height: calc(100vh - 2rem);
+	--scan-toolbar-icon-size: 40px;
+}
+
+.scanner-modal .modal-content {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+	overflow-y: auto;
+}
+
+.scanner-modal-container {
+	display: flex;
+	width: 100%;
+	flex: 1.5; /* Increased for better interaction */
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 2rem;
+	min-height: 0;
+	overflow: hidden;
+	position: relative;
+}
+
+.scanner-modal-container canvas {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+	transition: width 0.2s ease-in-out, height 0.2s ease-in-out;
+}
+
+.crop-handle-layer {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.crop-handle {
+	position: absolute;
+	width: 24px;
+	height: 24px;
+	box-sizing: border-box;
+	transform: translate(-50%, -50%);
+	border: 2px solid #000000;
+	border-radius: 50%;
+	background: var(--interactive-accent);
+	box-shadow: 0 0 0 5px #ffffff;
+	cursor: grab;
+	pointer-events: auto;
+}
+
+.crop-handle:active {
+	cursor: grabbing;
+}
+
+/* Button Wrapper - Horizontal Layout */
+.button-wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+/* Make icon buttons square */
+.button-wrapper button {
+	width: var(--scan-toolbar-icon-size);
+	height: var(--scan-toolbar-icon-size);
+	flex: 0 0 var(--scan-toolbar-icon-size);
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	border: 0;
+	box-shadow: none;
+	background: transparent;
+}
+
+.button-wrapper button:hover {
+	background: var(--background-modifier-hover);
+}
+
+.button-wrapper button:disabled,
+.confirm-button-wrapper button:disabled {
+	opacity: 0.35;
+	cursor: not-allowed;
+}
+
+.button-wrapper button svg {
+	width: calc(var(--scan-toolbar-icon-size) * 0.5);
+	height: calc(var(--scan-toolbar-icon-size) * 0.5);
+}
+
+/* Confirmation Button Wrapper - Centered Layout */
+.confirm-button-wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+	padding: 1rem;
+	border-top: 1px solid var(--background-modifier-border);
+}
+
+.confirm-button-wrapper button {
+	width: var(--scan-toolbar-icon-size);
+	height: var(--scan-toolbar-icon-size);
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 8px;
+	border: 0;
+	box-shadow: none;
+	background: transparent;
+}
+
+.confirm-button-wrapper button:hover {
+	background: var(--background-modifier-hover);
+}
+
+.confirm-button-wrapper button svg {
+	width: calc(var(--scan-toolbar-icon-size) * 0.5);
+	height: calc(var(--scan-toolbar-icon-size) * 0.5);
+}
+
+@media (min-width: 769px) {
+	.scanner-modal .modal-content {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto auto;
+		grid-template-rows: minmax(0, 1fr);
+		overflow-y: hidden;
+		padding-right: 0;
+	}
+
+	.scanner-modal-container {
+		grid-column: 1;
+		grid-row: 1;
+		width: auto;
+		flex: none;
+	}
+
+	.button-wrapper,
+	.confirm-button-wrapper {
+		grid-column: 3;
+		grid-row: 1;
+		flex-direction: column;
+		padding: 0.5rem 0;
+		border-top: 0;
+		border-left: 1px solid var(--background-modifier-border);
+		align-items: center;
+		justify-content: center;
+		box-sizing: border-box;
+		width: calc(var(--scan-toolbar-icon-size) + 1px);
+	}
+
+	.filter-panel-wrapper {
+		grid-column: 2;
+		grid-row: 1;
+		min-width: 0;
+		width: min(280px, 30vw);
+		padding: 0.5rem;
+		border: 0;
+		box-shadow: none;
+		background: transparent;
+		overflow-y: auto;
+	}
+
+	.bg-removal-panel-wrapper {
+		grid-column: 2;
+		grid-row: 1;
+		min-width: 0;
+		width: min(280px, 30vw);
+		padding: 0.5rem;
+		border: 0;
+		box-shadow: none;
+		background: transparent;
+		overflow-y: auto;
+	}
+}
+
+/* Mobile Optimizations */
+@media (max-width: 768px) {
+	.scanner-modal {
+		width: 98vw;   /* Use almost full width (was 90vw) */
+		height: 90vh;  /* Use more height (was 80vh) */
+	}
+	
+	.scanner-modal-container {
+		padding: 1.5rem;
+	}
+
+	/* Reduce button padding on mobile to save vertical space */
+	.button-wrapper,
+	.confirm-button-wrapper {
+		padding: 0.75rem; /* Reduced from 1rem */
+	}
+}
+/* Extra optimization for very small screens (phones in portrait) */
+@media (max-width: 480px) {
+	.scanner-modal {
+		width: 100vw;  /* Full width on small phones */
+		height: 95vh;  /* Nearly full height */
+	}
+	
+	.scanner-modal-container {
+		padding: 1rem;
+	}
+	
+	.button-wrapper,
+	.confirm-button-wrapper {
+		padding: 0.5rem;
+		gap: 8px; /* Slightly reduced gap between buttons */
+	}
+}
+
+/* Filter Panel Wrapper - 2-column vertical layout above buttons */
+.filter-panel-wrapper {
+	padding: 8px;
+	border: 0;
+	background: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.filter-panel-wrapper > div {
+	display: grid;
+	padding: 8px;
+	grid-template-columns: 1fr;
+	gap: 10px;
+	align-items: center;
+	max-width: 500px;
+	width: 100%;
+}
+
+.filter-control {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.filter-label {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex: 1;
+	min-width: 0;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--text-normal);
+	white-space: nowrap;
+}
+
+.filter-value {
+	box-sizing: border-box;
+	width: 42px;
+	padding: 2px 3px;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-accent);
+	text-align: right;
+}
+
+.filter-slider {
+	width: 120px;
+	flex: 0 0 120px;
+	height: 5px;
+	border-radius: 3px;
+	background: var(--background-modifier-border);
+	outline: none;
+	opacity: 0.9;
+	transition: opacity 0.2s;
+	cursor: pointer;
+}
+
+.filter-slider:hover {
+	opacity: 1;
+}
+
+.filter-slider::-webkit-slider-thumb {
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: var(--interactive-accent);
+	cursor: pointer;
+	transition: transform 0.1s;
+}
+
+.filter-slider::-webkit-slider-thumb:hover {
+	transform: scale(1.15);
+}
+
+.filter-slider::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: var(--interactive-accent);
+	cursor: pointer;
+	border: none;
+	transition: transform 0.1s;
+}
+
+.filter-slider::-moz-range-thumb:hover {
+	transform: scale(1.15);
+}
+
+.filter-slider:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.filter-toggle-wrapper {
+	display: flex;
+	align-items: center;
+	flex: 0 0 120px;
+	justify-content: flex-end;
+	gap: 6px;
+}
+
+.filter-toggle-wrapper .filter-label {
+	font-size: 12px;
+}
+
+.filter-checkbox {
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+	accent-color: var(--interactive-accent);
+	align-self: flex-start;
+}
+
+/* Responsive filter panel - Stack to 1 column on mobile */
+@media (max-width: 600px) {
+	.filter-panel-wrapper {
+		grid-template-columns: 1fr;
+		gap: 14px;
+		padding: 14px;
+	}
+
+	.filter-control {
+		gap: 8px;
+	}
+
+	.filter-label {
+		font-size: 13px;
+	}
+
+	.filter-slider {
+		height: 6px;
+		width: 110px;
+		flex-basis: 110px;
+	}
+
+	.filter-slider::-webkit-slider-thumb {
+		width: 20px;
+		height: 20px;
+	}
+
+	.filter-slider::-moz-range-thumb {
+		width: 20px;
+		height: 20px;
+	}
+
+	.filter-toggle-wrapper {
+		flex-basis: 110px;
+		gap: 8px;
+	}
+
+	.filter-toggle-wrapper .filter-label {
+		font-size: 13px;
+	}
+
+	.filter-checkbox {
+		width: 22px;
+		height: 22px;
+		align-self: center;
+	}
+
+}
+
+/* Background Removal Panel - Similar to filter panel */
+.bg-removal-panel-wrapper {
+	padding: 16px;
+	border: 0;
+	background: transparent;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bg-removal-panel-wrapper > div {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+	max-width: 500px;
+	width: 100%;
+}
+
+.bg-removal-instruction {
+	font-size: 13px;
+	color: var(--text-muted);
+	text-align: center;
+	font-style: italic;
+	padding: 8px 0;
+}
+
+.bg-removal-control {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	width: 100%;
+}
+
+.bg-removal-tolerance-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+}
+
+.bg-removal-tolerance-wrapper label {
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--text-normal);
+	min-width: 70px;
+}
+
+.bg-removal-tolerance-slider {
+	flex: 1;
+	height: 5px;
+	border-radius: 3px;
+	background: var(--background-modifier-border);
+	outline: none;
+	opacity: 0.9;
+	transition: opacity 0.2s;
+	cursor: pointer;
+}
+
+.bg-removal-tolerance-slider:hover {
+	opacity: 1;
+}
+
+.bg-removal-tolerance-slider::-webkit-slider-thumb {
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: var(--interactive-accent);
+	cursor: pointer;
+	transition: transform 0.1s;
+}
+
+.bg-removal-tolerance-slider::-webkit-slider-thumb:hover {
+	transform: scale(1.15);
+}
+
+.bg-removal-tolerance-slider::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: var(--interactive-accent);
+	cursor: pointer;
+	border: none;
+	transition: transform 0.1s;
+}
+
+.bg-removal-tolerance-slider::-moz-range-thumb:hover {
+	transform: scale(1.15);
+}
+
+.bg-removal-tolerance-value {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-accent);
+	min-width: 30px;
+	text-align: right;
+}
+
+.bg-removal-color-display {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 10px 14px;
+	background: var(--background-secondary);
+	border-radius: 6px;
+	border: 1px solid var(--background-modifier-border);
+}
+
+.bg-removal-color-swatch {
+	width: 36px;
+	height: 36px;
+	border: 2px solid var(--background-modifier-border);
+	border-radius: 4px;
+	background: white;
+	flex-shrink: 0;
+}
+
+.bg-removal-color-text {
+	font-size: 12px;
+	font-family: var(--font-monospace);
+	color: var(--text-muted);
+	font-weight: 500;
+}
+
+/* Mobile responsive */
+@media (max-width: 600px) {
+	.bg-removal-panel-wrapper > div {
+		max-width: 100%;
+	}
+
+	.bg-removal-instruction {
+		font-size: 12px;
+	}
+
+	.bg-removal-tolerance-wrapper label {
+		min-width: 60px;
+		font-size: 11px;
+	}
+
+	.bg-removal-tolerance-slider {
+		height: 6px;
+	}
+
+	.bg-removal-tolerance-slider::-webkit-slider-thumb {
+		width: 20px;
+		height: 20px;
+	}
+
+	.bg-removal-tolerance-slider::-moz-range-thumb {
+		width: 20px;
+		height: 20px;
+	}
+
+	.bg-removal-color-display {
+		padding: 8px 12px;
+		gap: 10px;
+	}
+
+	.bg-removal-color-swatch {
+		width: 32px;
+		height: 32px;
+	}
+
+	.bg-removal-color-text {
+		font-size: 11px;
+	}
+
+}
