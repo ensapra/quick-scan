@@ -22,6 +22,10 @@ Quick Scan is a fork of [Showwaiyan/obsidian-scan-sketch](https://github.com/Sho
 
 It is an Obsidian plugin for turning photos of handwritten notes and documents into clean scans. The workflow is designed for both desktop and mobile, with a quick command that can be added directly to the mobile toolbar.
 
+The original author, **Showwaiyan**, gave direct approval to maintain this fork as an independent plugin in [issue #5](https://github.com/Showwaiyan/obsidian-scan-sketch/issues/5):
+
+> You’re welcome to keep your fork as an independent plugin. If you’d like to submit it to Obsidian, please make sure it has its own name and ID so it doesn’t clash with the original.
+
 ## Features
 
 - **Quick Scan command**: Run `Quick Scan: Scan your document` from the command palette or add it to the mobile toolbar.
@@ -38,6 +42,28 @@ It is an Obsidian plugin for turning photos of handwritten notes and documents i
 - **Mobile-friendly controls**: Compact panels, touch-sized controls, and transparent tool tabs.
 - **Export to PNG, JPG, or SVG**: PNG preserves transparency. SVG contains the final image in an SVG wrapper.
 - **Obsidian integration**: Save to the vault's configured attachment location and insert the resulting embed into the source note.
+
+## What has been changed
+
+- **Reworked scanner editor**: A simpler editing layout with compact panels and controls designed for easy use on laptops and phones.
+- **No more scrolling through the scanner**: The image preview and main controls fit together in the scanner window, keeping the editing workflow within reach.
+- **Settings wired into the workflow**: Your chosen camera/gallery launch action, default export format, and toolbar icon size are applied when using the scanner.
+- **Automatic camera or gallery launch**: Open the camera, open the gallery, or simply show the scanner when starting Quick Scan. Camera is the default.
+- **Note context-menu actions**: Start scanning directly from a note's file menu or editor menu.
+- **Source-note tracking**: Scans started from a note's context menu keep that note as their destination, even if you switch notes while scanning. The embed is inserted at the cursor when the source note is active in an editor; otherwise, it is appended to that note.
+- **Obsidian attachment-location support**: Save scans to the vault's configured attachment location, with embed links generated through Obsidian's file manager.
+- **One-click saving**: Save and embed the scan with the checkmark button, using an automatic filename and your configured export format.
+- **Adjustable toolbar icon size**: Set icons from 32 to 72px independently of interface zoom, or reset them to the 40px default.
+- **Color inversion**: Invert scan colors alongside the existing image filters.
+- **Direct numeric filter controls**: Enter precise brightness, contrast, and saturation values as well as adjusting them with sliders.
+- **Consistent background removal with filters**: Sample original image colors and remove the background before applying filters, so brightness changes and inversion do not change which original color is removed.
+- **Background-removal state preserved between panels**: Keep the sampled color and tolerance while switching between editing tools, and use **Clear** to remove the effect.
+- **Sidebar ribbon button**: Open Quick Scan from the command palette, a mobile toolbar shortcut, or a note's context menu instead.
+- **Separate export dialog**: The checkmark button now saves the scan directly into the note.
+- **Scanner-specific destination folders**: The destination-folder list and export dropdown have been replaced by Obsidian's attachment-location settings.
+- **Custom filename entry**: Scan filenames are generated automatically when saving.
+- **Per-export format selection**: Choose the default PNG, JPG, or SVG format in Quick Scan's settings instead of selecting it in an export dialog.
+- **Export without a source note**: Saving now requires a note to receive the scan's embed.
 
 ## Installation
 
@@ -62,16 +88,12 @@ Quick Scan is not desktop-only and is intended to work on mobile as well.
 
 ### Fast workflow
 
-1. Open **Quick Scan: Scan your document** from the command palette, or use the mobile toolbar shortcut.
-2. Choose a photo from the camera or gallery picker.
-3. Rotate the image if needed.
-4. Use **Detect page corners** or open crop mode and adjust the four handles manually.
-5. Apply the crop.
-6. Open filters to adjust brightness, contrast, saturation, black-and-white, or inversion.
-7. Open background removal, click a background area, and adjust tolerance.
-8. Export with the checkmark button.
+1. **Open**: From your note, run **Quick Scan: Scan your document** or choose **Scan note** from its context menu.
+2. **Capture**: Take a photo with the camera that opens automatically, or use the gallery button to choose an image.
+3. **Adjust (optional)**: Crop, rotate, remove the background, or apply filters as needed.
+4. **Save**: Tap the main toolbar's checkmark to save the attachment and embed it in your note.
 
-The final image is saved as an attachment and linked in the source note. The scanner can optionally close after a successful export.
+The filename and attachment location are handled automatically. Set your preferred export format in **Settings > Quick Scan**; choose PNG to preserve transparency.
 
 ### Background removal
 
@@ -81,14 +103,17 @@ The selected color and tolerance remain available when switching between the bac
 
 ### Opening from a note
 
-The scanner can also be opened from a note's file menu or editor menu. Those entry points preserve the note that should receive the exported embed.
+Choose **Scan note** from a note's file menu or editor menu to keep that note as the destination even if you switch notes while scanning. If the source note is active in an editor when you save, the embed is inserted at the cursor; otherwise, it is appended to that note.
+
+When opening from the command palette or mobile toolbar, the note active at save time receives the embed. Keep the intended note active, or use **Scan note** to select a specific destination before scanning.
 
 ## Settings
 
 Open **Settings > Quick Scan** to configure:
 
+- **Quick sketch action**: Automatically open the camera (default), open the gallery, or do nothing when starting the scanner.
 - **Default export format**: PNG, JPG, or SVG.
-- **Close scanner after export**: Close the scanner automatically after a successful save.
+- **Close scanner after export**: Currently shown in settings, but the scanner always closes after a successful save regardless of this toggle.
 - **Toolbar icon size**: Adjust the scanner toolbar icon size independently of Obsidian's interface zoom.
 
 ## Development
