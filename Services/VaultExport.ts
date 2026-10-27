@@ -3,7 +3,7 @@
  * Handles folder creation, file saving, and path validation
  */
 
-import { Vault, TFile, TFolder } from "obsidian";
+import { Vault, TFile } from "obsidian";
 import { blobToArrayBuffer } from "./ImageExport";
 
 /**

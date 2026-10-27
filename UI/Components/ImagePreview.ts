@@ -119,11 +119,13 @@ export class ImagePreview extends Component {
 		this.ctx = ctx;
 
 		this.parent.appendChild(this.canvas);
-		this.cropHandleLayer = this.parent.createEl("div", { cls: "crop-handle-layer" });
+		this.cropHandleLayer = createEl("div", { cls: "crop-handle-layer" });
+		this.parent.appendChild(this.cropHandleLayer);
 		this.cropHandles = Array.from({ length: 4 }, () =>
-			this.cropHandleLayer.createEl("div", { cls: "crop-handle" }),
+			createEl("div", { cls: "crop-handle" }),
 		);
-		this.cropHandleLayer.style.display = "none";
+		this.cropHandles.forEach((handle) => this.cropHandleLayer.appendChild(handle));
+		this.cropHandleLayer.setCssStyles({ display: "none" });
 		this.toRotateDegree = 0;
 		this.croppingPointsVisible = false;
 		this.cropPoints = [];
@@ -527,13 +529,13 @@ export class ImagePreview extends Component {
 		if (!this.cropHandleLayer || !this.cropHandles) return;
 
 		if (!this.croppingPointsVisible || this.cropPoints.length !== 4) {
-			this.cropHandleLayer.style.display = "none";
+			this.cropHandleLayer.setCssStyles({ display: "none" });
 			return;
 		}
 
 		const canvasRect = this.canvas.getBoundingClientRect();
 		const parentRect = this.parent.getBoundingClientRect();
-		this.cropHandleLayer.style.display = "block";
+		this.cropHandleLayer.setCssStyles({ display: "block" });
 
 		this.cropPoints.forEach((point, index) => {
 			const handle = this.cropHandles[index];

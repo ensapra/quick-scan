@@ -1,4 +1,4 @@
-import { App, Notice, Plugin, PluginSettingTab, Setting, TFile } from "obsidian";
+import { App, Plugin, PluginSettingTab, Setting, TFile } from "obsidian";
 import type { ExportFormat } from "./Services/ImageExport";
 import { ScannerModal } from "./UI/Modals/scannerModal";
 
@@ -123,7 +123,7 @@ class HandwrittenScannerSettingTab extends PluginSettingTab {
 					.onClick(async () => {
 						this.plugin.settings.toolbarIconSize = DEFAULT_TOOLBAR_ICON_SIZE;
 						await this.plugin.saveSettings();
-						this.display();
+						this.update();
 					}),
 			);
 
