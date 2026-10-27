@@ -119,12 +119,10 @@ export class ImagePreview extends Component {
 		this.ctx = ctx;
 
 		this.parent.appendChild(this.canvas);
-		this.cropHandleLayer = createEl("div", { cls: "crop-handle-layer" });
-		this.parent.appendChild(this.cropHandleLayer);
+		this.cropHandleLayer = this.parent.createEl("div", { cls: "crop-handle-layer" });
 		this.cropHandles = Array.from({ length: 4 }, () =>
-			createEl("div", { cls: "crop-handle" }),
+			this.cropHandleLayer.createEl("div", { cls: "crop-handle" }),
 		);
-		this.cropHandles.forEach((handle) => this.cropHandleLayer.appendChild(handle));
 		this.cropHandleLayer.setCssStyles({ display: "none" });
 		this.toRotateDegree = 0;
 		this.croppingPointsVisible = false;

@@ -83,6 +83,49 @@ class HandwrittenScannerSettingTab extends PluginSettingTab {
 		this.plugin = plugin;
 	}
 
+	getSettingDefinitions() {
+		return [
+			{
+				name: "Quick sketch action",
+				desc: "Choose what opens automatically when starting Quick Scan",
+				control: {
+					type: "dropdown",
+					key: "quickSketchAction",
+					options: {
+						none: "Do nothing",
+						gallery: "Open gallery",
+						camera: "Open camera",
+					},
+				},
+			},
+			{
+				name: "Toolbar icon size",
+				desc: "Size of the scanner toolbar icons, independent of Obsidian's interface zoom",
+				control: {
+					type: "slider",
+					key: "toolbarIconSize",
+					min: 32,
+					max: 72,
+					step: 4,
+				},
+			},
+			{
+				name: "Default export format",
+				desc: "Default file format for exporting scanned images",
+				control: {
+					type: "dropdown",
+					key: "exportDefaultFormat",
+					options: { png: "PNG", jpg: "JPG", svg: "SVG" },
+				},
+			},
+			{
+				name: "Close scanner after export",
+				desc: "Automatically close the scanner window after successfully exporting an image",
+				control: { type: "toggle", key: "closeAfterExport" },
+			},
+		];
+	}
+
 	display(): void {
 		const { containerEl } = this;
 
@@ -123,7 +166,7 @@ class HandwrittenScannerSettingTab extends PluginSettingTab {
 					.onClick(async () => {
 						this.plugin.settings.toolbarIconSize = DEFAULT_TOOLBAR_ICON_SIZE;
 						await this.plugin.saveSettings();
-						this.update();
+						(this as PluginSettingTab & { update: () => void }).update();
 					}),
 			);
 
