@@ -1,4 +1,4 @@
-import { App, Plugin, PluginSettingTab, Setting, TFile } from "obsidian";
+import { App, Plugin, PluginSettingTab, TFile } from "obsidian";
 import type { ExportFormat } from "./Services/ImageExport";
 import { ScannerModal } from "./UI/Modals/scannerModal";
 
@@ -126,75 +126,4 @@ class HandwrittenScannerSettingTab extends PluginSettingTab {
 		];
 	}
 
-	display(): void {
-		const { containerEl } = this;
-
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName("Quick sketch action")
-			.setDesc("Choose what opens automatically when starting Quick Scan")
-			.addDropdown((dropdown) =>
-				dropdown
-					.addOption("none", "Do nothing")
-					.addOption("gallery", "Open gallery")
-					.addOption("camera", "Open camera")
-					.setValue(this.plugin.settings.quickSketchAction)
-					.onChange(async (value) => {
-						this.plugin.settings.quickSketchAction = value as "none" | "gallery" | "camera";
-						await this.plugin.saveSettings();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName("Toolbar icon size")
-			.setDesc("Size of the scanner toolbar icons, independent of Obsidian's interface zoom")
-			.addSlider((slider) =>
-				slider
-					.setLimits(32, 72, 4)
-					.setValue(this.plugin.settings.toolbarIconSize)
-					.setDynamicTooltip()
-					.onChange(async (value) => {
-						this.plugin.settings.toolbarIconSize = value;
-						await this.plugin.saveSettings();
-					}),
-			)
-			.addButton((button) =>
-				button
-					.setButtonText("Reset")
-					.setTooltip("Reset toolbar icon size to 40px")
-					.onClick(async () => {
-						this.plugin.settings.toolbarIconSize = DEFAULT_TOOLBAR_ICON_SIZE;
-						await this.plugin.saveSettings();
-						(this as PluginSettingTab & { update: () => void }).update();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName("Default export format")
-			.setDesc("Default file format for exporting scanned images")
-			.addDropdown((dropdown) =>
-				dropdown
-					.addOption("png", "PNG")
-					.addOption("jpg", "JPG")
-					.addOption("svg", "SVG")
-					.setValue(this.plugin.settings.exportDefaultFormat)
-					.onChange(async (value: ExportFormat) => {
-						this.plugin.settings.exportDefaultFormat = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-
-		new Setting(containerEl)
-			.setName("Close scanner after export")
-			.setDesc("Automatically close the scanner window after successfully exporting an image")
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.closeAfterExport)
-					.onChange(async (value) => {
-						this.plugin.settings.closeAfterExport = value;
-						await this.plugin.saveSettings();
-					}),
-			);
-	}
 }
